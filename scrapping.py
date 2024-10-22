@@ -25,11 +25,11 @@ all_products= []
 
 product_page = get_soup('https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html')
 
-universal_product_code = product_page.find('table').find_all('tr')[0].text
+universal_product_code = product_page.find('table').find_all('td')[0].text
 product_title = product_page.find('h1').text
-product_including_tax = product_page.find('table').find_all('tr')[3].text
-product_excluding_tax = product_page.find('table').find_all('tr')[2].text
-product_number_available_string = product_page.find('table').find_all('tr')[5].text
+product_including_tax = product_page.find('table').find_all('td')[3].text
+product_excluding_tax = product_page.find('table').find_all('td')[2].text
+product_number_available_string = product_page.find('table').find_all('td')[5].text
 product_description = product_page.find_all('p')[3].text
 product_category = product_page.find_all('a')[3].text
 product_review_rating = product_page.find('p', class_='star-rating')['class'][1]
@@ -46,5 +46,3 @@ all_products.append({
     'product_review_rating': product_review_rating,
     'product_image_url': product_image_url
 })
-
-print(all_products)
