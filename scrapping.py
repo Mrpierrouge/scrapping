@@ -62,3 +62,9 @@ all_products.append({
     'product_review_rating': product_review_rating,
     'product_image_url': product_image_url
 })
+
+with open('products.csv', 'w', newline='') as fichier_csv:
+    writter = csv.writer(fichier_csv)
+    writter.writerow(['universal_product_code', 'product_title', 'product_including_tax', 'product_excluding_tax', 'product_number_available', 'product_description', 'product_category', 'product_review_rating', 'product_image_url'])
+    for product in all_products:
+        writter.writerow([product['universal_product_code'], product['product_title'], product['product_including_tax'], product['product_excluding_tax'], product['product_number_available'], product['product_description'], product['product_category'], product['product_review_rating'], product['product_image_url']])
