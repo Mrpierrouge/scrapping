@@ -17,6 +17,18 @@ def get_soup(url):
         print(f"Erreur : {response.status_code}")
     return BeautifulSoup(response.text, 'html.parser')
 
+
+def get_int_from_string(string):
+    number = ''
+    for l in string:
+        if l.isdigit():
+            number += l
+    if number == '':
+        number = 0
+    else:
+        number = int(number)
+    return number
+
 site = get_soup(site_url)
 
 
@@ -27,9 +39,13 @@ product_page = get_soup('https://books.toscrape.com/catalogue/a-light-in-the-att
 
 universal_product_code = product_page.find('table').find_all('td')[0].text
 product_title = product_page.find('h1').text
+
 product_including_tax = product_page.find('table').find_all('td')[3].text
 product_excluding_tax = product_page.find('table').find_all('td')[2].text
+
 product_number_available_string = product_page.find('table').find_all('td')[5].text
+product_number_available = get_int_from_string(product_number_available_string)
+
 product_description = product_page.find_all('p')[3].text
 product_category = product_page.find_all('a')[3].text
 product_review_rating = product_page.find('p', class_='star-rating')['class'][1]
@@ -40,7 +56,7 @@ all_products.append({
     'product_title': product_title,
     'product_including_tax': product_including_tax,
     'product_excluding_tax': product_excluding_tax,
-    'product_number_available_string': product_number_available_string,
+    'product_number_available': product_number_available,
     'product_description': product_description,
     'product_category': product_category,
     'product_review_rating': product_review_rating,
