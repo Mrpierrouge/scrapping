@@ -15,7 +15,7 @@ def get_soup(url):
         print("Requête réussie!")
     else:
         print(f"Erreur : {response.status_code}")
-    return BeautifulSoup(response.text, 'html.parser')
+    return BeautifulSoup(response.content, 'html.parser')
 
 
 def get_int_from_string(string):
@@ -82,8 +82,8 @@ all_products= []
 
 category_explorer(category_url)
 
-with open('products.csv', 'w', newline='', encoding='utf-8') as fichier_csv:
-    writter = csv.writer(fichier_csv)
+with open('products.csv', 'w', newline='', encoding='utf-8-sig') as fichier_csv:
+    writter = csv.writer(fichier_csv, delimiter=';')
     writter.writerow(['universal_product_code', 'product_title', 'product_including_tax', 'product_excluding_tax', 'product_number_available', 'product_description', 'product_category', 'product_review_rating', 'product_image_url'])
     for product in all_products:
         writter.writerow([product['universal_product_code'], product['product_title'], product['product_including_tax'], product['product_excluding_tax'], product['product_number_available'], product['product_description'], product['product_category'], product['product_review_rating'], product['product_image_url']])
