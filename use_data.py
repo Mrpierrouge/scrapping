@@ -39,6 +39,8 @@ def get_bar_diagram():
         values.append(prix)
         labels.append(all_datas[i][0]['product_category'])
     plt.bar(labels, values)
+    plt.xticks(rotation=90)
+    plt.tight_layout()
     plt.show()
     return None
     
