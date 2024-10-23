@@ -16,15 +16,18 @@ def interface():
                 try:
                     get_data()
                     if new_input_user == "1":
-                        get_circular_diagram()
+                        get_circular_diagram(True)
                     elif new_input_user == "2":
-                        get_bar_diagram()
-                    plt.show()
+                        get_bar_diagram(True)
                 except:
                     print("Vous devez d'abord scrapper les données")
         elif input_user == "3":
-            get_pdf()
-            print('pdf créé')
+            try:
+                get_data()
+                get_pdf()
+                print('pdf créé')
+            except:
+                print("Vous devez d'abord scrapper les données")
         elif input_user == "4":
             break
 interface()

@@ -20,7 +20,7 @@ def get_data():
                 all_datas.append(category_data)       
     return None
 
-def get_circular_diagram():
+def get_circular_diagram(is_from_main):
     #créer le diagramme criculaire de la répartition des livres dans chaque catégorie
     values = []
     labels = []
@@ -32,6 +32,10 @@ def get_circular_diagram():
     plt.legend(labels, loc='best', ncol=2)
     plt.axis('equal') 
     plt.savefig('dossier_graphique/diagramme_circulaire.png')
+    if is_from_main:
+        plt.show()
+    else:
+        plt.close()
     return None
 
 def get_category_medium_price(category): 
@@ -39,7 +43,7 @@ def get_category_medium_price(category):
     prix = sum([float(product['product_including_tax'].replace('£', '')) for product in category]) / len(category)
     return prix
 
-def get_bar_diagram(): 
+def get_bar_diagram(is_from_main): 
     #créer le diagramme en barres des prix de livre moyens par catégorie
     values = []
     labels = []
@@ -52,15 +56,17 @@ def get_bar_diagram():
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.savefig('dossier_graphique/diagramme_barres.png')
+    if is_from_main:
+        plt.show()
+    else:
+        plt.close()
     return None
 
 def get_pdf():
     #créer un pdf avec les diagrammes circulaires et en barres
     folder_maker('dossier_graphique')
-    get_circular_diagram()
-    plt.close()
-    get_bar_diagram()
-    plt.close()
+    get_circular_diagram(False)
+    get_bar_diagram(False)
     pdf_file = 'rapport_prix_livres.pdf'
     c = canvas.Canvas(pdf_file, pagesize=letter)
     width, height = letter
