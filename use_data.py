@@ -5,7 +5,8 @@ import os
 
 all_datas = []          #using a global all_datas variable to call get_data fonction only once
 
-def get_data(): #récupère les données de tous les fichiers csv dans le dossier dossier_csv
+def get_data():
+    #récupère les données de tous les fichiers csv dans le dossier dossier_csv
     global all_datas
     all_datas = []          #resetting the global all_datas variable to avoid appending the same data multiple times
     for root, dirs, files in os.walk('dossier_csv'):
@@ -16,7 +17,8 @@ def get_data(): #récupère les données de tous les fichiers csv dans le dossie
                 all_datas.append(category_data)       
     return None
 
-def get_circular_diagram():#créer le diagramme criculaire de la répartition des livres dans chaque catégorie
+def get_circular_diagram():
+    #créer le diagramme criculaire de la répartition des livres dans chaque catégorie
     values = []
     labels = []
     for i in range (len(all_datas)):
@@ -29,11 +31,13 @@ def get_circular_diagram():#créer le diagramme criculaire de la répartition de
     plt.show()
     return None
 
-def get_category_medium_price(category): #receive a category, a list of product, and return the average price those products
+def get_category_medium_price(category): 
+    #receive a category, a list of product, and return the average price those products
     prix = sum([float(product['product_including_tax'].replace('£', '')) for product in category]) / len(category)
     return prix
 
-def get_bar_diagram(): #créer le diagramme en barres des prix de livre moyens par catégorie
+def get_bar_diagram(): 
+    #créer le diagramme en barres des prix de livre moyens par catégorie
     values = []
     labels = []
     for i in range (len(all_datas)):

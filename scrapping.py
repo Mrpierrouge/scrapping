@@ -33,7 +33,8 @@ def get_int_from_string(string):
     return number
 
 
-def category_explorer(url, category_products): #recursive function, receive a category url and the current datas of the category, calls page_explorer for each page of the category
+def category_explorer(url, category_products): 
+    #recursive function, receive a category url and the current datas of the category, calls page_explorer for each page of the category
     category_page = get_soup(url)
     page_explorer(category_page, category_products)
     if category_page.find('li', class_='next'):
@@ -44,7 +45,8 @@ def category_explorer(url, category_products): #recursive function, receive a ca
         print('fini')
     return category_products
 
-def page_explorer(page, category_products): # receive a page and the current datas of the category, extract the datas of the page and add them to the category datas
+def page_explorer(page, category_products): 
+    # receive a page and the current datas of the category, extract the datas of the page and add them to the category datas
     for product in page.find_all('h3'):
         product_url = product.find('a')['href'].replace('../', '')
         product_page = get_soup('https://books.toscrape.com/catalogue/' + product_url)
@@ -78,16 +80,17 @@ def page_explorer(page, category_products): # receive a page and the current dat
         })
     return None
 
-caracteres_interdits = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 
 def clean_name(nom):
+    caracteres_interdits = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
     # Remplacer les caractères interdits par des underscores
     for char in caracteres_interdits:
         nom = nom.replace(char, '_')
     return nom
 
 
-def download_image(url_image, nom_image, category): #receive an image url, a name and a category, download the image and save it in the folder_images of this category
+def download_image(url_image, nom_image, category): 
+    #receive an image url, a name and a category, download the image and save it in the folder_images of this category
     response = requests.get(url_image)
     nom_image = clean_name(nom_image)
     nom_dossier = clean_name(category)
@@ -97,7 +100,8 @@ def download_image(url_image, nom_image, category): #receive an image url, a nam
     print(f"Image {nom_image} téléchargée avec succès!")
     return None
 
-def file_writer(category_name, products):  # receive a category name and the datas of this category, create the files (jpg and csv) for this category
+def file_writer(category_name, products):  
+    # receive a category name and the datas of this category, create the files (jpg and csv) for this category
     folder_maker('dossier_csv/' + category_name)
     folder_maker('dossier_images/' + category_name)
     chemin_csv = os.path.join('dossier_csv', category_name, category_name + '.csv')
@@ -109,22 +113,30 @@ def file_writer(category_name, products):  # receive a category name and the dat
             writter.writerow([product['universal_product_code'], product['product_title'], product['product_including_tax'], product['product_excluding_tax'], product['product_number_available'], product['product_description'], product['product_category'], product['product_review_rating'], product['product_image_url']])
     return None
 
-def site_explorer(): # main function, calls category_explorer for each category found and call file_writer to write the files
+def site_explorer(): 
+    #calls category_explorer for each category found and call file_writer to write the files
     global category_url
     site = get_soup(site_url)
     for category in site.find('ul', class_='nav nav-list').find('ul').find_all('a'):
         category_name = category.text.strip()
-        category_url = site_url + category['href'].replace('index.html', '')         # need to remove index.html for category_explorer to work properly, as it adds page-x.html at the end of the url. calling a path without index.html still opens it
+        category_url = site_url + category['href'].replace('index.html', '')  
+         
+        """ need to remove index.html for category_explorer to work properly, 
+        as it adds page-x.html at the end of the url. 
+        calling a path without index.html still opens it"""
+        
         category_products = category_explorer(category_url, [])
         file_writer(category_name, category_products)
     return None   
 
-def folder_maker(path): #delete the folder if it exists and create it as an empty folder
+def folder_maker(path): 
+    #delete the folder if it exists and create it as an empty folder
     if os.path.exists(path):
         shutil.rmtree(path)
     os.makedirs(path)
 
 def scrap():
+    # main function, initiate the folders, call site_explorer
     folder_maker('dossier_images')
     folder_maker('dossier_csv')
     site_explorer()
