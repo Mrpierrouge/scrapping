@@ -1,10 +1,10 @@
 from scrapping import scrap
-from use_data import get_data, get_circular_diagram, get_bar_diagram
-
+from use_data import get_data, get_circular_diagram, get_bar_diagram, get_pdf
+import matplotlib.pyplot as plt
 
 def interface():
     while True:
-        input_user = input('Que voulez-vous faire ?\n1 - scrapper les données (cela peux prendre quelques minutes)\n2 - Voir des données (les données doivent avoir été scrapper)\n3 - Quitter \n')
+        input_user = input('Que voulez-vous faire ?\n1 - scrapper les données (cela peux prendre quelques minutes)\n2 - Voir des données (les données doivent avoir été scrapper)\n3 - Créer un PDF  \n4 - Quitter')
         if input_user == "1":
             scrap()
             print("scrapping terminé")
@@ -19,8 +19,12 @@ def interface():
                         get_circular_diagram()
                     elif new_input_user == "2":
                         get_bar_diagram()
+                    plt.show()
                 except:
                     print("Vous devez d'abord scrapper les données")
         elif input_user == "3":
+            get_pdf()
+            print('pdf créé')
+        elif input_user == "4":
             break
 interface()

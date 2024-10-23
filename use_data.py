@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
 import csv
 import os
-
+from scrapping import folder_maker
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
 
 all_datas = []          #using a global all_datas variable to call get_data fonction only once
 
@@ -27,8 +30,8 @@ def get_circular_diagram():
     plt.figure(figsize=(18, 9))
     plt.pie(values)
     plt.legend(labels, loc='best', ncol=2)
-    plt.axis('equal')  
-    plt.show()
+    plt.axis('equal') 
+    plt.savefig('dossier_graphique/diagramme_circulaire.png')
     return None
 
 def get_category_medium_price(category): 
@@ -44,9 +47,34 @@ def get_bar_diagram():
         prix = get_category_medium_price(all_datas[i])
         values.append(prix)
         labels.append(all_datas[i][0]['product_category'])
+    plt.figure(figsize=(10, 6))
     plt.bar(labels, values)
     plt.xticks(rotation=90)
     plt.tight_layout()
-    plt.show()
+    plt.savefig('dossier_graphique/diagramme_barres.png')
     return None
+
+def get_pdf():
+    #créer un pdf avec les diagrammes circulaires et en barres
+    folder_maker('dossier_graphique')
+    get_circular_diagram()
+    plt.close()
+    get_bar_diagram()
+    plt.close()
+    pdf_file = 'rapport_prix_livres.pdf'
+    c = canvas.Canvas(pdf_file, pagesize=letter)
+    width, height = letter
     
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(100, height - 50, "Rapport des prix des livres par catégorie")
+
+    c.drawString(100, height - 100, "Diagramme circulaire de la répartition des livres par catégorie")
+    pie_chart = ImageReader('dossier_graphique/diagramme_circulaire.png')
+    c.drawImage(pie_chart, 100, height - 400, width=400, height=300)  
+    c.drawString(100, height - 450, "Diagramme en barres des prix moyens des livres par catégorie")
+    bar_chart = ImageReader('dossier_graphique/diagramme_barres.png')
+    c.drawImage(bar_chart, 100, height - 750, width=400, height=300)  
+
+    c.showPage()
+    c.save()
+    return None
