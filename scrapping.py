@@ -5,6 +5,7 @@ import os
 import shutil
 
 site_url = 'https://books.toscrape.com/'
+category_url = '' #need this variable global to be able to use it in the recursive function category_explorer
 
 def get_soup(url):
     
@@ -123,7 +124,8 @@ def folder_maker(path): #delete the folder if it exists and create it as an empt
         shutil.rmtree(path)
     os.makedirs(path)
 
-category_url = ''
-folder_maker('dossier_images')
-folder_maker('dossier_csv')
-site_explorer()
+def scrap():
+    folder_maker('dossier_images')
+    folder_maker('dossier_csv')
+    site_explorer()
+    return None
