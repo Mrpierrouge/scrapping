@@ -30,4 +30,6 @@ def interface():
                 print("Vous devez d'abord scrapper les données")
         elif input_user == "4":
             break
+        else:
+            print("taper 1, 2, 3 ou 4")
 interface()
