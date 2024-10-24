@@ -97,14 +97,14 @@ def get_pdf():
     c.setFont("Helvetica", 12)
     
     c.drawString(100, height - 100, f"Prix moyen global des livres : £{medium_prices}")
-    c.drawString(100, height - 120, f"Catégorie la plus représentée : {most_represented_category} ({category_counts[most_represented_category]} livres)")
-    c.drawString(100, height - 100, "Diagramme circulaire de la répartition des livres par catégorie")
+    c.drawString(100, height - 125, f"Catégorie la plus représentée : {most_represented_category} ({category_counts[most_represented_category]} livres)")
+    c.drawString(100, height - 170, "Diagramme circulaire de la répartition des livres par catégorie :")
     pie_chart = ImageReader('dossier_graphique/diagramme_circulaire.png')
-    c.drawImage(pie_chart, 100, height - 400, width=400, height=300)  
+    c.drawImage(pie_chart, 100, height - 425, width=500, height=250)  
     c.drawString(100, height - 450, "Diagramme en barres des prix moyens des livres par catégorie")
     bar_chart = ImageReader('dossier_graphique/diagramme_barres.png')
-    c.drawImage(bar_chart, 100, height - 750, width=400, height=300)  
+    c.drawImage(bar_chart, 100, height - 725, width=500, height=250)  
 
     c.showPage()
-    c.save()
+    c.save()    
     return None
