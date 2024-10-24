@@ -82,6 +82,7 @@ def get_pdf():
     get_circular_diagram(False)
     get_bar_diagram(False)
     pdf_file = 'rapport_prix_livres.pdf'
+    
     if os.path.exists(pdf_file):
         os.remove(pdf_file)
         print('Le fichier pdf existant a été remplacé')
@@ -96,6 +97,7 @@ def get_pdf():
         medium_prices = sum(all_prices) / len(all_prices)
     except ZeroDivisionError:
         print("Aucune catégorie n'a été scrapper")
+        
     most_represented_category = max(category_counts, key=category_counts.get)
      
     c.setFont("Helvetica", 12)
@@ -112,5 +114,3 @@ def get_pdf():
     c.showPage()
     c.save()    
     return None
-get_data()
-get_pdf()
