@@ -82,6 +82,10 @@ def get_pdf():
     get_circular_diagram(False)
     get_bar_diagram(False)
     pdf_file = 'rapport_prix_livres.pdf'
+    if os.path.exists(pdf_file):
+        os.remove(pdf_file)
+        print('Le fichier pdf existant a été remplacé')
+    
     c = canvas.Canvas(pdf_file, pagesize=letter)
     width, height = letter
     
@@ -108,3 +112,5 @@ def get_pdf():
     c.showPage()
     c.save()    
     return None
+get_data()
+get_pdf()

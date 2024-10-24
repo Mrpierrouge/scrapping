@@ -1,6 +1,5 @@
 from scrapping import scrap
 from use_data import get_data, get_circular_diagram, get_bar_diagram, get_pdf
-import matplotlib.pyplot as plt
 
 def interface():
     while True:
